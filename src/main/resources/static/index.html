@@ -11,11 +11,13 @@
     <div id="signIn" class="center-box">
         <h1>Ticket Reservation</h1>
 
-        <label for="Name">Name: </label>
-        <input type="text" name="Name" placeholder="Name">
+        <label for="name">Name: </label>
+        <input type="text" id="name" name="Name" placeholder="Name" required>
 
-        <label for="Email">Email: </label>
-        <input type="email" name="Email" placeholder="Email">
+        <label for="email">Email: </label>
+        <input type="email" id="email" name="Email" placeholder="Email" required>
+
+        <span id="emailError" style="color: red; display: none;">Invalid email</span>
 
         <button id="startButton" type="button">Start Reservation</button>
 
@@ -24,19 +26,13 @@
 
     <div id="rsrv" style="display: none;">
         <h3>Start Reservation</h3>
-        <label>
-            <input type="checkbox" id="checkboxD1"> Day 1: NIKI, TWICE, Olivia Rodrigo
-        </label><br>
-    
-        <label>
-            <input type="checkbox" id="checkboxD2"> Day 2: BINI, Ben&Ben, December Avenue
-        </label><br>
-    
-        <label>
-            <input type="checkbox" id="checkboxD3"> Day 3: Ariana Grande, Sabrina Carpenter, The Weeknd
-        </label><br>
-
-        <button id="submit" type="submit">Submit Reservation</button>
+        <form id="confirmation" method="post" action="/submitChoice">
+            <input type="checkbox" name="days" value="Day 1"> Day 1: NIKI, TWICE, Olivia Rodrigo<br>
+            <input type="checkbox" name="days" value="Day 2"> Day 2: BINI, Ben&Ben, December Avenue<br>
+            <input type="checkbox" name="days" value="Day 3"> Day 3: Ariana Grande, Sabrina Carpenter, The Weeknd<br>
+            <button id="submit" type="submit" value="submit">Submit Reservation</button>
+        </form>
+        
     </div>
 
     <div id="viewRsrv" style="display: none;">
