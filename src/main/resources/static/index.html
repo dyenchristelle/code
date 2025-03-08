@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Boot with HTML</title>
+    <link rel="stylesheet" href="styling.css">
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <div id="signIn" class="center-box">
+        <h1>Ticket Reservation</h1>
+
+        <label for="Name">Name: </label>
+        <input type="text" name="Name" placeholder="Name">
+
+        <label for="Email">Email: </label>
+        <input type="email" name="Email" placeholder="Email">
+
+        <button id="startButton" type="button">Start Reservation</button>
+
+        <button id="viewButton" type="button">View Reservation</button>
+    </div>
+
+    <div id="rsrv" style="display: none;">
+        <h3>Start Reservation</h3>
+        <label>
+            <input type="checkbox" id="checkboxD1"> Day 1: NIKI, TWICE, Olivia Rodrigo
+        </label><br>
+    
+        <label>
+            <input type="checkbox" id="checkboxD2"> Day 2: BINI, Ben&Ben, December Avenue
+        </label><br>
+    
+        <label>
+            <input type="checkbox" id="checkboxD3"> Day 3: Ariana Grande, Sabrina Carpenter, The Weeknd
+        </label><br>
+
+        <button id="submit" type="submit">Submit Reservation</button>
+    </div>
+
+    <div id="viewRsrv" style="display: none;">
+        <h4>View Reservation</h4>
+        <p4>Reservation Information: </p4>
+            <button id="" type="button">Change Reservation</button>
+            <button id="doneButton" type="button">Done</button>
+        </label>
+    </div>
+
+        <script src="script.js"></script>
+</body>
+</html>
