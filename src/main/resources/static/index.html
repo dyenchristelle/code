@@ -27,13 +27,21 @@
     <div id="rsrv" style="display: none;">
         <h3>Start Reservation</h3>
         <form id="confirmation" method="post" action="/submitChoice">
-            <input type="checkbox" name="days" value="Day 1"> Day 1: NIKI, TWICE, Olivia Rodrigo<br>
-            <input type="checkbox" name="days" value="Day 2"> Day 2: BINI, Ben&Ben, December Avenue<br>
-            <input type="checkbox" name="days" value="Day 3"> Day 3: Ariana Grande, Sabrina Carpenter, The Weeknd<br>
+            <input type="checkbox" name="day" value="Day 1"> Day 1: NIKI, TWICE, Olivia Rodrigo<br>
+            <input type="checkbox" name="day" value="Day 2"> Day 2: BINI, Ben&Ben, December Avenue<br>
+            <input type="checkbox" name="day" value="Day 3"> Day 3: Ariana Grande, Sabrina Carpenter, The Weeknd<br>
             <button id="submit" type="submit" value="submit">Submit Reservation</button>
-        </form>
-        
+        </form>   
     </div>
+    
+    <div id="customPopup" class="popup">
+        <div class="popup-content">
+            <p id="popupMessage">Are you sure you want to reserve tickets?</p>
+            <button onclick="confirmReservation(true)">Yes</button>
+            <button onclick="confirmReservation(false)">No</button>
+        </div>
+    </div>
+
 
     <div id="viewRsrv" style="display: none;">
         <h4>View Reservation</h4>

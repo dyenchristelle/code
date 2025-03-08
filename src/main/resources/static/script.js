@@ -1,16 +1,3 @@
-// document.addEventListener("DOMContentLoaded", function() {
-//     var signIn = document.getElementById("signIn");
-//     var startButtonb = document.getElementById("startButton");
-//     var hiddenDiv = document.getElementById("rsrv");
-
-//     startButton.addEventListener("click", function() {
-//         signIn.style.display = "none";
-//         hiddenDiv.style.display = "block";
-//         setTimeout(function() {
-//             hiddenDiv.classList.add("signIn");
-//         }, 10);
-//     });
-// });
 document.addEventListener("DOMContentLoaded", function() {
     var view = document.getElementById("viewRsrv");
     var signIn = document.getElementById("signIn");
@@ -36,20 +23,20 @@ document.getElementById("confirmation").addEventListener("submit", function(even
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
-    const selectedDays = Array.from(document.querySelectorAll('input[name="days"]:checked'))
+    const selectedDays = Array.from(document.querySelectorAll('input[name="day"]:checked'))
                               .map(checkbox => checkbox.value);
 
     if (selectedDays.length === 0){
         alert("select a day");
         return;
     }
-    const userConfirmed = confirm("Are you sure you want to reserve tickets for" +day+ "?");
+    const userConfirmed = confirm("Are you sure you want to reserve tickets for" +selectedDays+ "?");
     if (!userConfirmed) return;
 
     fetch("/api/submitChoice", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, days: selectedDays })  
+        body: JSON.stringify({ name, email, day: selectedDays })  
     })
     .then(response => response.json())
     .then(data => {
@@ -114,5 +101,20 @@ async function checkIfExists(name, email) {
     } catch (error) {
         console.error("Error checking reservation:", error);
         return false;
+    }
+}
+//popup daw ewan
+function showPopup(day) {
+    document.getElementById("popupMessage").innerText = "Are you sure you want to reserve tickets for " + day + "?";
+    document.getElementById("customPopup").style.display = "flex";
+}
+
+function confirmReservation(isConfirmed) {
+    document.getElementById("customPopup").style.display = "none"; 
+
+    if (isConfirmed) {
+        alert("Reservation successful!"); 
+    } else {
+        alert("Reservation canceled!");
     }
 }
