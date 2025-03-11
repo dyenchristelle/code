@@ -18,43 +18,8 @@ document.addEventListener("DOMContentLoaded", function() {
         view.style.display = "none";
     });
 });
-document.getElementById("confirmation").addEventListener("submit", function(event) {
-    event.preventDefault(); 
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const selectedDays = Array.from(document.querySelectorAll('input[name="day"]:checked'))
-                              .map(checkbox => checkbox.value);
-
-    if (selectedDays.length === 0){
-        alert("select a day");
-        return;
-    }
-    const userConfirmed = confirm("Are you sure you want to reserve tickets for" +selectedDays+ "?");
-    if (!userConfirmed) return;
-
-    fetch("/api/submitChoice", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, day: selectedDays })  
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("Reservation successful!");
-            document.getElementById("rsrv").style.display = "none";
-            document.getElementById("signIn").style.display = "block";
-        } else {
-            alert("Reservation failed.");
-        }
-    })
-    .catch(error => {
-        console.error("Error submitting reservation:", error);
-        alert("An error occurred. Please try again.");
-    });
-});
-
-document.getElementById("startButton").addEventListener("click",async function(event) {
+document.getElementById("startButton").addEventListener("click", async function(event) {
     event.preventDefault();
 
     var signIn = document.getElementById("signIn");
@@ -104,17 +69,67 @@ async function checkIfExists(name, email) {
     }
 }
 //popup daw ewan
-function showPopup(day) {
-    document.getElementById("popupMessage").innerText = "Are you sure you want to reserve tickets for " + day + "?";
-    document.getElementById("customPopup").style.display = "flex";
+// function showPopup(day) {
+//     document.getElementById("popupMessage").innerText = "Are you sure you want to reserve tickets for " + day + "?";
+//     document.getElementById("customPopup").style.display = "flex";
+// }
+
+// function confirmReservation(isConfirmed) {
+//     document.getElementById("customPopup").style.display = "none"; 
+
+//     if (isConfirmed) {
+//         alert("Reservation successful!"); 
+//     } else {
+//         alert("Reservation canceled!");
+//     }
+// }
+function getFormData() {
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const selectedDays = Array.from(document.querySelectorAll('input[name="day"]:checked'))
+                              .map(checkbox => checkbox.value);
+
+    return { name, email, days: selectedDays };
 }
+function saveFormData() {
+    const formData = getFormData(); 
+    localStorage.setItem("reservationData", JSON.stringify(formData));
+    console.log("Data saved:", formData);
+}
+function submitReservation() {
+    const formData = getFormData();
 
-function confirmReservation(isConfirmed) {
-    document.getElementById("customPopup").style.display = "none"; 
+    fetch("/api/submitChoice", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Reservation successful!");
+        } else {
+            alert("Reservation failed." + data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error submitting reservation:", error);
+        alert("An error occurred. Please try again.");
+    });
+}
+document.getElementById("confirmation").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    if (isConfirmed) {
-        alert("Reservation successful!"); 
-    } else {
-        alert("Reservation canceled!");
+    const formData = getFormData();
+    
+    if (!formData.name || !formData.email || formData.days.length === 0) {
+        alert("Please fill in all fields and select at least one day.");
+        return;
     }
-}
+
+    const userConfirmed = confirm("Are you sure you want to reserve tickets for " + formData.days.join(", ") + "?");
+    if (!userConfirmed) return;
+
+    saveFormData(); 
+    submitReservation(); 
+});

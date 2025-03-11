@@ -26,19 +26,18 @@ public class MessageController {
         this.messageRepository = messageRepository;
     }
     @PostMapping("/submitChoice")
-    public String submitChoice(@RequestParam String name, 
-                               @RequestParam String email, 
-                               @RequestParam List<String> day,
-                               Model model) {
-        if (day == null || day.isEmpty()){
-            model.addAttribute("Error!", "Please select a day(s)");
-        }
-        String dayString = String.join(", ", day);
-        messageService.saveMessage(name, email, dayString);
+    public ResponseEntity<Map<String, Object>> submitChoice(@RequestBody message request) {
 
-        model.addAttribute("confirmation", "Are you sure you want to reserve tickets for " + day);
-        return "/signIn";
-    }       
+        if (request.getDays() == null || request.getDays().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Please select at least one day."));
+        }
+
+        String dayString = String.join(", ", request.getDays());
+
+        messageService.saveMessage(request.getName(), request.getEmail(), dayString);
+
+        return ResponseEntity.ok(Map.of("success", true, "message", "Reservation successful!"));
+    }     
 @GetMapping("/api/checkReservation")
 public ResponseEntity<Map<String, Boolean>> checkReservation(
     @RequestParam String name, 
