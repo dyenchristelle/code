@@ -68,21 +68,6 @@ async function checkIfExists(name, email) {
         return false;
     }
 }
-//popup daw ewan
-// function showPopup(day) {
-//     document.getElementById("popupMessage").innerText = "Are you sure you want to reserve tickets for " + day + "?";
-//     document.getElementById("customPopup").style.display = "flex";
-// }
-
-// function confirmReservation(isConfirmed) {
-//     document.getElementById("customPopup").style.display = "none"; 
-
-//     if (isConfirmed) {
-//         alert("Reservation successful!"); 
-//     } else {
-//         alert("Reservation canceled!");
-//     }
-// }
 function getFormData() {
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
